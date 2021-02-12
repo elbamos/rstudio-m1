@@ -150,9 +150,7 @@ RUN mkdir -p /etc/R \
      && cd .. \
      && rm -rf src \
      && echo "options(repos = c(CRAN='https://cran.rstudio.com'), download.file.method = 'libcurl')" \
-       >> /usr/local/lib/R/etc/Rprofile.site \
-     && Rscript -e "install.packages(c('tidyverse', 'rstan', 'sparklyr', 'rmarkdown', 'shiny'))"
-
+       >> /usr/local/lib/R/etc/Rprofile.site 
 
 EXPOSE 8787
 CMD ["/init"]
