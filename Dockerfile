@@ -22,86 +22,82 @@ COPY pam-helper.sh /usr/local/lib/rstudio-server/bin/pam-helper
 
 RUN apt-get update \
   && apt-get install -qqy --no-install-recommends \
-  curl \
-  file \
-  gdal-bin \
-  gfortran \
-  gsfonts \
-  g++ \
-  fonts-roboto \
-  fonts-texgyre \
-  gsfonts \
-  git \
-  libbz2-*\
-  libcurl4 \
-  lbzip2 \
-  libfftw3-dev \
-  libgdal-dev \
-  libgeos-dev \
-  libgsl0-dev \
-  libgl1-mesa-dev \
-  libglu1-mesa-dev \
-  libhdf4-alt-dev \
-  libhdf5-dev \
-  libjq-dev \
-  libpangocairo-* \
-  libpq-dev \
-  libpng16* \
-  libproj-dev \
-  libprotobuf-dev \
-  libnetcdf-dev \
-  libsqlite3-dev \
-  libssl-dev \
-  libudunits2-dev \
-  lsb-release \
-  netcdf-bin \
-  postgis \
-  protobuf-compiler \
-  sqlite3 \
-  tk-dev \
-  unixodbc-dev \
-  wget \
-  libapparmor1 \
-  libgc1c2 \
-  libclang-dev \
-  libcurl4-openssl-dev \
-  libedit2 \
-  libobjc4 \
-  libssl-dev \
-  libpq5 \
-  psmisc \
-  procps \
-  python-setuptools \
-  sudo \
-  cmake \
-   curl \
-   default-jdk \
-   fonts-roboto \
-   ghostscript \
-   hugo \
-   less \
-   libbz2-dev \
-   libglpk-dev \
-   libgmp3-dev \
-   libfribidi-dev \
-   libharfbuzz-dev \
-   libhunspell-dev \
-   libicu-dev \
-   liblzma-dev \
-   libmagick++-dev \
-   libopenmpi-dev \
-   libpcre2-dev \
-   libreadline7 \
-   libreadline-dev \
-   libssl-dev \
-   libxml2-dev\
-   libxslt1-dev \
-   libzmq3-dev \
-   qpdf \
-   texinfo \
-   texlive-fonts-recommended \
-   texlive-fonts-extra \
-   software-properties-common
+    cmake \
+    curl \
+    default-jdk \
+    file \
+    fonts-roboto \
+    fonts-texgyre \
+    g++ \
+    gdal-bin \
+    gfortran \
+    ghostscript \
+    git \
+    gsfonts \
+    hugo \
+    lbzip2 \
+    less \
+    libapparmor1 \
+    libbz2-*\
+    libbz2-dev \
+    libclang-dev \
+    libcurl4 \
+    libcurl4-openssl-dev \
+    libedit2 \
+    libfftw3-dev \
+    libfribidi-dev \
+    libgc1c2 \
+    libgdal-dev \
+    libgeos-dev \
+    libgl1-mesa-dev \
+    libglpk-dev \
+    libglu1-mesa-dev \
+    libgmp3-dev \
+    libgsl0-dev \
+    libharfbuzz-dev \
+    libhdf4-alt-dev \
+    libhdf5-dev \
+    libhunspell-dev \
+    libicu-dev \
+    libjq-dev \
+    liblzma-dev \
+    libmagick++-dev \
+    libnetcdf-dev \
+    libobjc4 \
+    libopenmpi-dev \
+    libpangocairo-* \
+    libpcre2-dev \
+    libpng16* \
+    libpq-dev \
+    libpq5 \
+    libproj-dev \
+    libprotobuf-dev \
+    libreadline-dev \
+    libreadline7 \
+    libsqlite3-dev \
+    libssl-dev \
+    libssl-dev \
+    libudunits2-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libzmq3-dev \
+    lsb-release \
+    netcdf-bin \
+    postgis \
+    procps \
+    protobuf-compiler \
+    psmisc \
+    python-setuptools \
+    qpdf \
+    software-properties-common \
+    sqlite3 \
+    sudo \
+    texinfo \
+    texlive-fonts-extra \
+    texlive-fonts-recommended \
+    tk-dev \
+    unixodbc-dev \
+    wget
 
 RUN mkdir -p /etc/R \
      && mkdir -p /etc/rstudio \
@@ -150,7 +146,7 @@ RUN mkdir -p /etc/R \
      && cd .. \
      && rm -rf src \
      && echo "options(repos = c(CRAN='https://cran.rstudio.com'), download.file.method = 'libcurl')" \
-       >> /usr/local/lib/R/etc/Rprofile.site 
+       >> /usr/local/lib/R/etc/Rprofile.site
 
 EXPOSE 8787
 CMD ["/init"]
