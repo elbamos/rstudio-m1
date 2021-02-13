@@ -148,5 +148,17 @@ RUN mkdir -p /etc/R \
      && echo "options(repos = c(CRAN='https://cran.rstudio.com'), download.file.method = 'libcurl')" \
        >> /usr/local/lib/R/etc/Rprofile.site
 
+COPY --from=builder /usr/local/src/packages packages
+RUN apt-get install -qqy --no-install-recommends libc-ares2 \
+  && dpkg -i ./packages/libnghttp2-14_1.36.0-bionic0_arm64.deb \
+  && dpkg -i ./packages/libuv1_1.24.1-bionic0_arm64.deb \
+  && dpkg -i ./packages/libnode64_10.15.2~dfsg-bionic0_arm64.deb \
+  && dpkg -i ./packages/libuv1-dev_1.24.1-bionic0_arm64.deb \
+  && dpkg -i ./packages/libnode-dev_10.15.2~dfsg-bionic0_arm64.deb \
+  && rm -rf ./packages
+
+RUN Rscript -e "install.packages(c('tidyverse', 'sparklyr', \
+  'rmarkdown', 'shiny'))"
+
 EXPOSE 8787
 CMD ["/init"]
