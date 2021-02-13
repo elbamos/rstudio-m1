@@ -157,6 +157,8 @@ RUN apt-get install -qqy --no-install-recommends libc-ares2 \
   && dpkg -i ./packages/libnode-dev_10.15.2~dfsg-bionic0_arm64.deb \
   && rm -rf ./packages
 
+RUN echo 'rstudio ALL=(ALL:ALL) ALL' >> /etc/sudoers
+
 RUN Rscript -e "install.packages(c('tidyverse', 'sparklyr', \
   'rmarkdown', 'shiny'))"
 
