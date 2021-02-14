@@ -159,8 +159,9 @@ RUN apt-get install -qqy --no-install-recommends libc-ares2 \
 
 RUN echo 'rstudio ALL=(ALL:ALL) ALL' >> /etc/sudoers
 
-RUN Rscript -e "install.packages(c('tidyverse', 'sparklyr', \
-  'rmarkdown', 'shiny'))"
+RUN R CMD javareconf \
+  && Rscript -e "install.packages(c('tidyverse', 'sparklyr', \
+    'rmarkdown', 'shiny', 'rJava'))"
 
 EXPOSE 8787
 CMD ["/init"]
