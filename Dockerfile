@@ -159,9 +159,15 @@ RUN apt-get install -qqy --no-install-recommends libc-ares2 \
 
 RUN echo 'rstudio ALL=(ALL:ALL) ALL' >> /etc/sudoers
 
+RUN wget https://github.com/conda-forge/miniforge/releases/download/4.9.2-5/Mambaforge-Linux-aarch64.sh \
+  && sh ./Mambaforge-Linux-aarch64.sh -b -p /usr/local/mambaforge \
+  && rm ./Mambaforge-Linux-aarch64.sh
+
+ENV PATH=/usr/local/mambaforge/bin/:$PATH
+
 RUN R CMD javareconf \
   && Rscript -e "install.packages(c('tidyverse', 'sparklyr', \
-    'rmarkdown', 'shiny', 'rJava'))"
+    'rmarkdown', 'shiny', 'rJava', 'reticulate'))"
 
 EXPOSE 8787
 CMD ["/init"]
