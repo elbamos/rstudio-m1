@@ -117,7 +117,22 @@ RUN mkdir -p /etc/R \
    	 && addgroup rstudio staff \
      &&  echo 'rsession-which-r=/usr/local/bin/R' >> /etc/rstudio/rserver.conf \
      && echo 'lock-type=advisory' >> /etc/rstudio/file-locks \
-     && git config --system credential.helper 'cache --timeout=3600' \
+     && cd .. \
+     && rm -rf src \
+     && echo "options(repos = c(CRAN='https://cran.rstudio.com'), download.file.method = 'libcurl')" \
+       >> /usr/local/lib/R/etc/Rprofile.site \
+     && mkdir -p /home/rstudio/.rstudio/monitored/user-settings \
+     && echo 'alwaysSaveHistory="0" \
+             \nloadRData="0" \
+             \nsaveAction="0"' \
+             > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
+     && chown -R rstudio:rstudio /home/rstudio/.rstudio \
+     && mkdir -p /var/run/rstudio-server \
+     && mkdir -p /var/lock/rstudio-server \
+     && mkdir -p /var/log/rstudio-server \
+     && mkdir -p /var/lib/rstudio-server 
+
+RUN git config --system credential.helper 'cache --timeout=3600' \
      && git config --system push.default simple \
      && wget -P /tmp/ https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-aarch64.tar.gz \
      && tar xzf /tmp/s6-overlay-aarch64.tar.gz -C / \
@@ -129,24 +144,10 @@ RUN mkdir -p /etc/R \
      && echo '#!/bin/bash \
              \n /usr/local/lib/rstudio-server/bin/rstudio-server stop' \
              > /etc/services.d/rstudio/finish \
-     && mkdir -p /home/rstudio/.rstudio/monitored/user-settings \
-     && echo 'alwaysSaveHistory="0" \
-             \nloadRData="0" \
-             \nsaveAction="0"' \
-             > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
-     && chown -R rstudio:rstudio /home/rstudio/.rstudio \
-     && mkdir -p /var/run/rstudio-server \
-     && mkdir -p /var/lock/rstudio-server \
-     && mkdir -p /var/log/rstudio-server \
-     && mkdir -p /var/lib/rstudio-server \
      && cp /usr/local/lib/rstudio-server/extras/init.d/debian/rstudio-server /etc/init.d/ \
      && update-rc.d rstudio-server defaults \
      && ln -f -s /usr/local/lib/rstudio-server/bin/rstudio-server /usr/sbin/rstudio-server \
-     && useradd -r rstudio-server \
-     && cd .. \
-     && rm -rf src \
-     && echo "options(repos = c(CRAN='https://cran.rstudio.com'), download.file.method = 'libcurl')" \
-       >> /usr/local/lib/R/etc/Rprofile.site
+     && useradd -r rstudio-server
 
 COPY --from=builder /usr/local/src/packages packages
 RUN apt-get install -qqy --no-install-recommends libc-ares2 \
